@@ -130,6 +130,101 @@
             box-shadow: 0 10px 30px rgba(0, 255, 136, 0.5);
             color: #00ff88;
         }
+
+        #robot-playground {
+            position: relative;
+            height: 250px;
+            margin-top: 24px;
+            overflow: hidden;
+            border: 1px solid #45475a;
+            border-radius: 14px;
+            background:
+                radial-gradient(ellipse at 50% 100%, rgba(0, 255, 136, .13), transparent 58%),
+                #181825;
+            touch-action: pan-y;
+        }
+
+        #robot-playground::after {
+            position: absolute;
+            right: 24px;
+            bottom: 18px;
+            left: 24px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #45475a 15%, #45475a 85%, transparent);
+            content: "";
+            pointer-events: none;
+        }
+
+        #robot-playground-hint {
+            position: absolute;
+            z-index: 1;
+            top: 16px;
+            left: 18px;
+            margin: 0;
+            color: #a6adc8;
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        #robot-dog {
+            position: absolute;
+            z-index: 1;
+            width: clamp(130px, 22vw, 190px);
+            height: auto;
+            left: 50%;
+            top: 58%;
+            overflow: visible;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            will-change: left, top;
+        }
+
+        #robot-dog.is-walking #dog-body {
+            animation: dog-bob .24s ease-in-out infinite alternate;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        #robot-dog.is-walking .dog-leg-front-near,
+        #robot-dog.is-walking .dog-leg-rear-far {
+            animation: dog-step .24s ease-in-out infinite alternate;
+            transform-box: view-box;
+        }
+
+        #robot-dog.is-walking .dog-leg-front-far,
+        #robot-dog.is-walking .dog-leg-rear-near {
+            animation: dog-step .24s ease-in-out infinite alternate-reverse;
+            transform-box: view-box;
+        }
+
+        .dog-leg-front-near { transform-origin: 75px 69px; }
+        .dog-leg-front-far { transform-origin: 88px 64px; }
+        .dog-leg-rear-near { transform-origin: 150px 68px; }
+        .dog-leg-rear-far { transform-origin: 162px 63px; }
+
+        @keyframes dog-bob {
+            to { transform: translateY(-2px); }
+        }
+
+        @keyframes dog-step {
+            to { rotate: 8deg; }
+        }
+
+        @media (max-width: 600px) {
+            #robot-playground { height: 210px; }
+            #robot-playground-hint { right: 14px; max-width: 55%; text-align: right; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #robot-dog.is-walking #dog-body,
+            #robot-dog.is-walking .dog-leg-front-near,
+            #robot-dog.is-walking .dog-leg-front-far,
+            #robot-dog.is-walking .dog-leg-rear-near,
+            #robot-dog.is-walking .dog-leg-rear-far {
+                animation: none;
+            }
+        }
+        
     </style>
 </head>
 <body>
@@ -212,6 +307,63 @@
             </button>
         </div>
 
+        <section id="robot-playground" aria-label="Zona de joacă a cățelului-robot">
+            <p id="robot-playground-hint">Mută cursorul în această zonă, iar cățelul-robot te va urma.</p>
+            <svg id="robot-dog" viewBox="0 0 220 130" role="img" aria-label="Cățel-robot galben cu patru picioare">
+                <defs>
+                    <linearGradient id="dog-yellow" x1="0" x2="0.9" y1="0" y2="1">
+                        <stop offset="0" stop-color="#ffe477"/>
+                        <stop offset="1" stop-color="#e6ad23"/>
+                    </linearGradient>
+                    <linearGradient id="dog-dark" x1="0" x2="1" y1="0" y2="1">
+                        <stop offset="0" stop-color="#45475a"/>
+                        <stop offset="1" stop-color="#181825"/>
+                    </linearGradient>
+                </defs>
+                <ellipse cx="112" cy="118" rx="72" ry="7" fill="#080810" opacity=".45"/>
+                <g class="dog-leg-front-far">
+                    <path d="M78 62 91 89 83 112" fill="none" stroke="#181825" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="m83 112-9 2" fill="none" stroke="#45475a" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M78 62 91 89" fill="none" stroke="url(#dog-yellow)" stroke-width="9" stroke-linecap="round"/>
+                    <circle cx="91" cy="89" r="6" fill="#45475a" stroke="#f9e2af" stroke-width="2"/>
+                </g>
+                <g class="dog-leg-rear-far">
+                    <path d="m153 61-9 28 17 22" fill="none" stroke="#181825" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="m161 111 9 2" fill="none" stroke="#45475a" stroke-width="8" stroke-linecap="round"/>
+                    <path d="m153 61-9 28" fill="none" stroke="url(#dog-yellow)" stroke-width="9" stroke-linecap="round"/>
+                    <circle cx="144" cy="89" r="6" fill="#45475a" stroke="#f9e2af" stroke-width="2"/>
+                </g>
+                <g class="dog-leg-front-near">
+                    <path d="m66 66-15 28 13 19" fill="none" stroke="url(#dog-dark)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="m64 113-10 2" fill="none" stroke="#45475a" stroke-width="8" stroke-linecap="round"/>
+                    <path d="m66 66-15 28" fill="none" stroke="url(#dog-yellow)" stroke-width="10" stroke-linecap="round"/>
+                    <circle cx="51" cy="94" r="6" fill="#45475a" stroke="#f9e2af" stroke-width="2"/>
+                </g>
+                <g class="dog-leg-rear-near">
+                    <path d="m165 65 15 27-9 21" fill="none" stroke="url(#dog-dark)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="m171 113 10 2" fill="none" stroke="#45475a" stroke-width="8" stroke-linecap="round"/>
+                    <path d="m165 65 15 27" fill="none" stroke="url(#dog-yellow)" stroke-width="10" stroke-linecap="round"/>
+                    <circle cx="180" cy="92" r="6" fill="#45475a" stroke="#f9e2af" stroke-width="2"/>
+                </g>
+                <g id="dog-body">
+                    <path d="M54 43a12 12 0 0 1 12-12h87a12 12 0 0 1 12 12v23a10 10 0 0 1-10 10H64a10 10 0 0 1-10-10z" fill="#181825" stroke="#45475a" stroke-width="3"/>
+                    <path d="M64 32a9 9 0 0 1 9-9h78a9 9 0 0 1 9 9v26a8 8 0 0 1-8 8H72a8 8 0 0 1-8-8z" fill="url(#dog-yellow)" stroke="#ffe477" stroke-width="2"/>
+                    <path d="M159 36h17l13 11-2 17h-24z" fill="url(#dog-yellow)" stroke="#d59d1c" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="m177 43 12 4 8 9-4 5h-17z" fill="#181825"/>
+                    <circle cx="189" cy="52" r="3" fill="#00ff88"/>
+                    <rect x="79" y="33" width="37" height="13" rx="4" fill="#181825" stroke="#b37c16" stroke-width="1.5"/>
+                    <circle cx="87" cy="39.5" r="3" fill="#89dceb"/>
+                    <circle cx="98" cy="39.5" r="3" fill="#89dceb"/>
+                    <circle cx="109" cy="39.5" r="3" fill="#89dceb"/>
+                    <path d="M124 53h29" stroke="#a56f12" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M130 58h17" stroke="#fff1a8" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+                    <rect x="140" y="27" width="11" height="4" rx="2" fill="#45475a"/>
+                    <circle cx="144" cy="25" r="3" fill="#89dceb"/>
+                </g>
+            </svg>
+        </section>
+
+
     </main>
 
     <script src="player.js"></script>
@@ -231,6 +383,71 @@
         document.querySelector("#btn-social").addEventListener("click", function() {
             window.location.href = "social-engineering.html";
         });
+
+        const playground = document.querySelector("#robot-playground");
+        const robotDog = document.querySelector("#robot-dog");
+        let targetX = 0;
+        let targetY = 0;
+        let animationFrame = 0;
+        let currentX = 0;
+        let currentY = 0;
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        function setRobotBounds() {
+            const bounds = playground.getBoundingClientRect();
+            const halfWidth = robotDog.getBoundingClientRect().width / 2;
+            const halfHeight = robotDog.getBoundingClientRect().height / 2;
+            targetX = Math.max(halfWidth, Math.min(bounds.width - halfWidth, targetX || bounds.width / 2));
+            targetY = Math.max(halfHeight, Math.min(bounds.height - halfHeight, targetY || bounds.height * .58));
+            currentX = targetX;
+            currentY = targetY;
+            robotDog.style.left = `${currentX}px`;
+            robotDog.style.top = `${currentY}px`;
+        }
+
+        function followCursor() {
+            const dx = targetX - currentX;
+            const dy = targetY - currentY;
+            const distance = Math.hypot(dx, dy);
+            if (reduceMotion) {
+                currentX = targetX;
+                currentY = targetY;
+                robotDog.classList.remove("is-walking");
+                robotDog.style.left = `${currentX}px`;
+                robotDog.style.top = `${currentY}px`;
+                animationFrame = 0;
+                return;
+            }
+            if (distance < 1) {
+                currentX = targetX;
+                currentY = targetY;
+                robotDog.classList.remove("is-walking");
+                robotDog.style.left = `${currentX}px`;
+                robotDog.style.top = `${currentY}px`;
+                animationFrame = 0;
+                return;
+            }
+
+            robotDog.classList.add("is-walking");
+            if (Math.abs(dx) > 1) robotDog.style.scale = dx < 0 ? "-1 1" : "1 1";
+            currentX += dx * .14;
+            currentY += dy * .14;
+            robotDog.style.left = `${currentX}px`;
+            robotDog.style.top = `${currentY}px`;
+            animationFrame = window.requestAnimationFrame(followCursor);
+        }
+
+        playground.addEventListener("pointermove", event => {
+            const bounds = playground.getBoundingClientRect();
+            const halfWidth = robotDog.getBoundingClientRect().width / 2;
+            const halfHeight = robotDog.getBoundingClientRect().height / 2;
+            targetX = Math.max(halfWidth, Math.min(bounds.width - halfWidth, event.clientX - bounds.left));
+            targetY = Math.max(halfHeight, Math.min(bounds.height - halfHeight, event.clientY - bounds.top));
+            if (!animationFrame) animationFrame = window.requestAnimationFrame(followCursor);
+        });
+
+        window.addEventListener("resize", setRobotBounds);
+        setRobotBounds();
 
     </script>
 </body>
