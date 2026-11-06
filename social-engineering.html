@@ -47,6 +47,7 @@ input{flex:1;min-width:0;box-sizing:border-box;padding:12px;border-radius:6px;bo
 
 <main class="panel" id="stage"></main>
 
+<script src="player.js"></script>
 <script>
 // ====== SETARE: URL-ul Cloudflare Worker-ului tău (vezi worker.js) ======
 const WORKER_URL = "https://cyber-defenders-se.NUMELE-TAU.workers.dev";
@@ -63,8 +64,7 @@ const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls)
 let lives = 3, R = null, timer = null;
 
 // ----- integrare cu restul jocului (nume + scor comune prin localStorage) -----
-const savedName = localStorage.getItem("cd-name");
-if (savedName) $("#display-name").textContent = "Jucător: " + savedName;
+
 function getScore(){ return Number(localStorage.getItem("cd-score")) || 0; }
 function addScore(d){ localStorage.setItem("cd-score", Math.max(0, getScore() + d)); showHud(); }
 function showHud(){ $("#display-score").textContent = "Scor: " + getScore(); $("#display-lives").textContent = "❤️".repeat(Math.max(lives, 0)) || "💔"; }
