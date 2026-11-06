@@ -228,48 +228,10 @@
             }
         }
 
-
-
-
-        body::after {
-    content: " ";
-    display: block;
-    position: fixed;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    z-index: 99999;
-    background-size: 100% 4px, 6px 100%;
-    pointer-events: none; /* Permite click-urile prin efect */
-}
-
-/* 2. Stilul pentru liniile de cod care curg pe fundal */
-#matrix-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Stă în spatele tuturor elementelor */
-    opacity: 0.15; /* Să fie discret, să nu încurce citirea textului */
-    pointer-events: none;
-    font-family: monospace;
-    font-size: 13px;
-    color: #00ff88;
-    overflow: hidden;
-    line-height: 1.2;
-    white-space: pre;
-}
-
-
-
         
     </style>
 </head>
 <body>
-
-    
-    <div id="matrix-bg"></div>
-
         
     <!-- 1. Header (Bara de sus) -->
     <header>
@@ -497,44 +459,6 @@
 
         window.addEventListener("resize", setRobotBounds);
         setRobotBounds();
-
-
-
-
-
-        const codeLines = [
-    "root@cyber-defenders:~# nmap -sV --script vuln 192.168.1.0/24",
-    "[+] Scanning ports... 80/tcp open http, 443/tcp open https",
-    "[!] WARNING: Suspicious archive entropy detected (Zip Bomb indicator)",
-    "root@cyber-defenders:~# python3 analyzer.py --check-headers --deep-scan",
-    "[ok] HTTP Content-Length header verified. Ratios within limits.",
-    "root@cyber-defenders:~# apt-get update && apt-get upgrade -y",
-    "[*] Analyzing file signatures... checking for double extensions (.pdf.exe)",
-    "CRITICAL: Executable payload masked inside container archive!"
-];
-
-const matrixBg = document.getElementById('matrix-bg');
-let currentText = "";
-
-function generateTerminalBackground() {
-    if (!matrixBg) return;
-    let randomLine = codeLines[Math.floor(Math.random() * codeLines.length)];
-    currentText += randomLine + "\n";
-    
-    // Păstrăm doar ultimele 25 de linii să nu consume resurse
-    let lines = currentText.split("\n");
-    if (lines.length > 25) {
-        lines.shift();
-        currentText = lines.join("\n");
-    }
-    
-    matrixBg.textContent = currentText;
-}
-
-// Rulează funcția la fiecare 1.5 secunde pentru a adăuga linii noi încet
-setInterval(generateTerminalBackground, 1500);
-
-
 
         
     </script>
