@@ -26,6 +26,59 @@
             font-size: 18px;
             font-weight: bold;
             color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        #profile-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            padding: 6px;
+            color: #00ff88;
+            background: #1e1e2e;
+            border: 1px solid #00ff88;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #profile-button:hover, #profile-button:focus-visible {
+            color: #11111b;
+            background: #00ff88;
+        }
+
+        #profile-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        #progress-dialog {
+            width: min(680px, calc(100% - 40px));
+            max-width: 680px;
+            padding: 24px;
+            color: #cdd6f4;
+            background: #1e1e2e;
+            border: 1px solid #00ff88;
+            border-radius: 14px;
+        }
+
+        #progress-dialog::backdrop { background: rgba(17, 17, 27, .8); }
+        #progress-dialog h2 { margin-top: 0; color: #00ff88; }
+        #progress-chart { display: block; width: 100%; height: auto; }
+        #progress-close {
+            display: block;
+            margin: 16px 0 0 auto;
+            padding: 9px 16px;
+            color: #11111b;
+            background: #00ff88;
+            border: 0;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         .modes-grid {
@@ -62,8 +115,21 @@
         <div id="player-info">
             <span id="display-name">Jucător: Anonim</span> | 
             <span id="display-score">Scor: 0</span>
+            <button id="profile-button" type="button" aria-label="Vezi progresul jocurilor" aria-haspopup="dialog" aria-controls="progress-dialog">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M4.5 20c.6-3.7 3.2-5.8 7.5-5.8s6.9 2.1 7.5 5.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </button>
         </div>
     </header>
+
+    <dialog id="progress-dialog" aria-labelledby="progress-title">
+        <h2 id="progress-title">Progresul tău</h2>
+        <p>Avansul tău în fiecare mini-joc.</p>
+        <svg id="progress-chart" role="img" aria-label="Graficul progresului în mini-jocuri"></svg>
+        <button id="progress-close" type="button">Închide</button>
+    </dialog>
 
     <!-- 2. Main Content Container -->
     <main id="app-container" style="padding: 20px;">
@@ -79,7 +145,7 @@
 
         <h2 id="section-title">Alege o aventură:</h2>
 
-        <!-- MENIUL PRINCIPAL (Doar cele 3 carduri noi) -->
+        <!-- MENIUL PRINCIPAL -->
         <div class="modes-grid">
             <button id="btn-phishing" class="card-mode">
                 <h3>🎣 Phish Detective</h3>
