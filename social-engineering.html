@@ -136,6 +136,7 @@ async function submit(text, silent){
     R.busy = false; lock(false); R.ui.input.focus(); runTimer();
   } catch (e) {
     typing.textContent = "⚠️ Conexiunea cu atacatorul a eșuat. Încearcă din nou. "+stringify(e);
+    console.error(e);
     R.hist.pop(); R.turn--; R.busy = false; lock(false);
   }
 }
