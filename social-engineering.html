@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Social Engineering | Cyber Defenders</title>
+
 <style>
 body{background:#11111b;color:#cdd6f4;font-family:Arial,sans-serif;margin:0;padding:20px}
 header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;border-bottom:2px solid #00ff88;padding-bottom:15px}
@@ -32,131 +33,642 @@ input{flex:1;min-width:0;box-sizing:border-box;padding:12px;border-radius:6px;bo
 .res.bad{border-color:#f38ba8}
 </style>
 </head>
+
 <body>
+
 <header>
   <h1>💬 Social Engineering</h1>
-  <div id="player-info"><span id="display-name">Jucător: Anonim</span> | <span id="display-score">Scor: 0</span> | <span id="display-lives">❤️❤️❤️</span></div>
-  <button class="back" onclick="window.location.href='index.html'">⬅ Inapoi la Meniu</button>
+
+  <div id="player-info">
+    <span id="display-name">Jucător: Anonim</span> |
+    <span id="display-score">Scor: 0</span> |
+    <span id="display-lives">❤️❤️❤️</span>
+  </div>
+
+  <button class="back" onclick="window.location.href='index.html'">
+    ⬅ Înapoi la Meniu
+  </button>
 </header>
 
 <div id="mascot-box">
   <div style="font-size:40px;margin-right:15px">🤖</div>
-  <div><strong style="color:#00ff88">Cyberbot:</strong>
-  <p id="mascot-text" style="margin:5px 0 0 0"></p></div>
+
+  <div>
+    <strong style="color:#00ff88">Cyberbot:</strong>
+    <p id="mascot-text" style="margin:5px 0 0 0"></p>
+  </div>
 </div>
 
 <main class="panel" id="stage"></main>
 
 <script src="player.js"></script>
+
 <script>
-// ====== SETARE: URL-ul Cloudflare Worker-ului tău (vezi worker.js) ======
-const WORKER_URL = "https://cyber-defenders-se.anda24931.workers.dev";
+
+// ====== CLOUDFLARE WORKER ======
+
+const WORKER_URL = "wss://cyber-defenders-se.anda24931.workers.dev";
+
+
+// ====== SCENARII ======
 
 const SCENARIOS = [
-  {id:"it",icon:"🧑‍💻",title:"Suport IT „prietenos”",lvl:1,who:"Radu (Suport IT)",open:"Salut! Sunt Radu de la Suportul IT. Am văzut o autentificare ciudată pe contul tău de student. Ai primit cumva un mesaj de la noi azi?"},
-  {id:"friend",icon:"👤",title:"Colegul cu număr nou",lvl:2,who:"Mihai (număr nou)",open:"Heii, sunt Mihai! Mi-am pierdut telefonul și scriu de pe numărul unui prieten 😅 ești pe aici?"},
-  {id:"intern",icon:"💼",title:"Recrutorul „perfect”",lvl:3,who:"Elena (recrutor TechNova)",open:"Bună! Sunt Elena de la TechNova. Profilul tău ne-a impresionat și avem un internship plătit, remote, pentru studenți la informatică. Ești interesată/interesat?"}
+  {
+    id:"it",
+    icon:"🧑‍💻",
+    title:"Suport IT „prietenos”",
+    lvl:1,
+    who:"Radu (Suport IT)",
+    open:"Salut! Sunt Radu de la Suportul IT. Am văzut o autentificare ciudată pe contul tău de student. Ai primit cumva un mesaj de la noi azi?"
+  },
+  {
+    id:"friend",
+    icon:"👤",
+    title:"Colegul cu număr nou",
+    lvl:2,
+    who:"Mihai (număr nou)",
+    open:"Heii, sunt Mihai! Mi-am pierdut telefonul și scriu de pe numărul unui prieten 😅 ești pe aici?"
+  },
+  {
+    id:"intern",
+    icon:"💼",
+    title:"Recrutorul „perfect”",
+    lvl:3,
+    who:"Elena (recrutor TechNova)",
+    open:"Bună! Sunt Elena de la TechNova. Profilul tău ne-a impresionat și avem un internship plătit, remote, pentru studenți la informatică. Ești interesată/interesat?"
+  }
 ];
-const TIME_LIMIT = 45, MAX_TURNS = 8;
+
+const TIME_LIMIT = 45;
+const MAX_TURNS = 8;
+
+
+// ====== VARIABILE GENERALE ======
 
 const $ = s => document.querySelector(s);
-const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-let lives = 3, R = null, timer = null;
 
-// ----- integrare cu restul jocului (nume + scor comune prin localStorage) -----
+const el = (tag, cls, text) => {
+  const e = document.createElement(tag);
 
-function getScore(){ return Number(localStorage.getItem("cd-score")) || 0; }
-function addScore(d){ localStorage.setItem("cd-score", Math.max(0, getScore() + d)); showHud(); }
-function showHud(){ $("#display-score").textContent = "Scor: " + getScore(); $("#display-lives").textContent = "❤️".repeat(Math.max(lives, 0)) || "💔"; }
-function say(t){ $("#mascot-text").textContent = t; }
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+
+  return e;
+};
+
+let lives = 3;
+let R = null;
+let timer = null;
+
+
+// ====== INTEGRARE CU RESTUL JOCULUI ======
+
+function getScore(){
+  return Number(localStorage.getItem("cd-score")) || 0;
+}
+
+function addScore(d){
+  localStorage.setItem("cd-score", Math.max(0, getScore() + d));
+  showHud();
+}
+
+function showHud(){
+  $("#display-score").textContent = "Scor: " + getScore();
+
+  $("#display-lives").textContent =
+    "❤️".repeat(Math.max(lives, 0)) || "💔";
+}
+
+function say(t){
+  $("#mascot-text").textContent = t;
+}
+
+
+// ====== MENIU ======
 
 function menu(){
+
   clearInterval(timer);
+
   if (lives <= 0) lives = 3;
+
   showHud();
-  say("Un atacator te abordează pe chat și nu are un script: se adaptează la ce spui. Ai " + TIME_LIMIT + " de secunde pentru fiecare răspuns. Alege o misiune!");
+
+  say(
+    "Simulează o conversație suspectă și exersează cum să te protejezi. Ai "
+    + TIME_LIMIT +
+    " de secunde pentru fiecare răspuns. Alege o misiune!"
+  );
+
   const st = $("#stage");
-  st.replaceChildren(el("h2", "", "🛡️ Misiuni de chat și manipulare"));
+
+  st.replaceChildren(
+    el("h2", "", "🛡️ Misiuni de chat și manipulare")
+  );
+
   SCENARIOS.forEach(sc => {
-    const b = el("button", "card-mode", sc.icon + " " + sc.title + " · dificultate " + "★".repeat(sc.lvl));
+
+    const b = el(
+      "button",
+      "card-mode",
+      sc.icon + " " + sc.title + " · dificultate " + "★".repeat(sc.lvl)
+    );
+
     b.onclick = () => start(sc);
+
     st.append(b);
+
   });
-  st.append(el("p", "hint", "Toate datele sunt fictive. Nu scrie niciodată parole, CNP sau date de card reale."));
+
+  st.append(
+    el(
+      "p",
+      "hint",
+      "Toate datele sunt fictive. Nu scrie niciodată parole, CNP sau date de card reale."
+    )
+  );
 }
+
+
+// ====== PORNIRE SCENARIU ======
 
 function start(sc){
-  if (WORKER_URL.includes("NUMELE-TAU")) { alert("Setează WORKER_URL în social-engineering.html (vezi worker.js)."); return; }
-  R = {sc, hist:[{r:"A", t:sc.open}], turn:0, tactics:[], tips:[], busy:false};
-  say("Atenție: cineva îți scrie. Nu te grăbi, dar nici nu tăcea prea mult!");
+
+  R = {
+    sc,
+    hist:[{r:"A", t:sc.open}],
+    turn:0,
+    tactics:[],
+    tips:[],
+    busy:false
+  };
+
+  say(
+    "Atenție: cineva îți scrie. Nu te grăbi, dar nici nu tăcea prea mult!"
+  );
+
   const st = $("#stage");
-  const tm = el("div", "timer"), fill = el("div"); tm.append(fill);
-  const log = el("div"); log.id = "log";
-  const input = el("input"); input.placeholder = "Scrie răspunsul…"; input.maxLength = 500; input.autocomplete = "off";
+
+  const tm = el("div", "timer");
+  const fill = el("div");
+
+  tm.append(fill);
+
+  const log = el("div");
+  log.id = "log";
+
+  const input = el("input");
+  input.placeholder = "Scrie răspunsul…";
+  input.maxLength = 500;
+  input.autocomplete = "off";
+
   const send = el("button", "", "Trimite");
+
   const rep = el("button", "ghost", "🚩 Blochează și raportează");
+
   rep.style.marginTop = "8px";
-  const row = el("div", "row"); row.append(input, send);
-  st.replaceChildren(el("div", "hint", sc.icon + " " + sc.who), tm, log, row, rep);
-  R.ui = {fill, log, input, send, rep};
+
+  const row = el("div", "row");
+
+  row.append(input, send);
+
+  st.replaceChildren(
+    el("div", "hint", sc.icon + " " + sc.who),
+    tm,
+    log,
+    row,
+    rep
+  );
+
+  R.ui = {
+    fill,
+    log,
+    input,
+    send,
+    rep
+  };
+
   addMsg("bot", sc.open);
+
   send.onclick = () => submit(input.value);
-  input.onkeydown = e => { if (e.key === "Enter") submit(input.value); };
-  rep.onclick = () => submit("Te blochez și raportez conversația. Verific pe canalele oficiale.");
-  input.focus(); runTimer();
+
+  input.onkeydown = e => {
+    if (e.key === "Enter") submit(input.value);
+  };
+
+  rep.onclick = () => submit(
+    "Te blochez și raportez conversația. Verific pe canalele oficiale."
+  );
+
+  input.focus();
+
+  runTimer();
 }
 
-function addMsg(cls, text){ const d = el("div", "m " + cls, text); R.ui.log.append(d); R.ui.log.scrollTop = R.ui.log.scrollHeight; return d; }
-function lock(v){ R.ui.send.disabled = R.ui.rep.disabled = R.ui.input.disabled = v; }
-function runTimer(){
-  clearInterval(timer); let t = TIME_LIMIT; R.ui.fill.style.width = "100%";
-  timer = setInterval(() => { t--; R.ui.fill.style.width = (t / TIME_LIMIT * 100) + "%"; if (t <= 0) { clearInterval(timer); submit("", true); } }, 1000);
+
+// ====== AFIȘARE MESAJE ======
+
+function addMsg(cls, text){
+
+  const d = el("div", "m " + cls, text);
+
+  R.ui.log.append(d);
+
+  R.ui.log.scrollTop = R.ui.log.scrollHeight;
+
+  return d;
 }
+
+
+// ====== BLOCARE INTERFAȚĂ ======
+
+function lock(v){
+
+  R.ui.send.disabled =
+  R.ui.rep.disabled =
+  R.ui.input.disabled = v;
+
+}
+
+
+// ====== TIMER ======
+
+function runTimer(){
+
+  clearInterval(timer);
+
+  let t = TIME_LIMIT;
+
+  R.ui.fill.style.width = "100%";
+
+  timer = setInterval(() => {
+
+    t--;
+
+    R.ui.fill.style.width =
+      (t / TIME_LIMIT * 100) + "%";
+
+    if (t <= 0){
+
+      clearInterval(timer);
+
+      submit("", true);
+
+    }
+
+  }, 1000);
+
+}
+
+
+// ====== CONEXIUNE WEBSOCKET CU CLOUDFLARE ======
+
+function sendToWorker(payload){
+
+  return new Promise((resolve, reject) => {
+
+    let socket;
+    let settled = false;
+
+    const timeoutId = setTimeout(() => {
+
+      fail(new Error("Conexiunea a expirat."));
+
+    }, 20000);
+
+
+    function fail(error){
+
+      if (settled) return;
+
+      settled = true;
+
+      clearTimeout(timeoutId);
+
+      if (
+        socket &&
+        (socket.readyState === WebSocket.CONNECTING ||
+         socket.readyState === WebSocket.OPEN)
+      ){
+
+        socket.close();
+
+      }
+
+      reject(error);
+
+    }
+
+
+    try {
+
+      socket = new WebSocket(WORKER_URL);
+
+    } catch (error){
+
+      fail(error);
+
+      return;
+
+    }
+
+
+    socket.addEventListener("open", () => {
+
+      try {
+
+        socket.send(JSON.stringify(payload));
+
+      } catch (error){
+
+        fail(error);
+
+      }
+
+    });
+
+
+    socket.addEventListener("message", event => {
+
+      if (settled) return;
+
+      try {
+
+        const data = JSON.parse(event.data);
+
+        if (data.error){
+
+          throw new Error(data.error);
+
+        }
+
+        settled = true;
+
+        clearTimeout(timeoutId);
+
+        socket.close();
+
+        resolve(data);
+
+      } catch (error){
+
+        fail(error);
+
+      }
+
+    });
+
+
+    socket.addEventListener("error", () => {
+
+      fail(new Error("Eroare WebSocket."));
+
+    });
+
+
+    socket.addEventListener("close", () => {
+
+      if (!settled){
+
+        fail(
+          new Error("Conexiunea WebSocket s-a închis.")
+        );
+
+      }
+
+    });
+
+  });
+
+}
+
+
+// ====== TRIMITERE RĂSPUNS ======
 
 async function submit(text, silent){
+
   text = (text || "").trim();
+
   if (R.busy || (!text && !silent)) return;
-  R.busy = true; clearInterval(timer); R.ui.input.value = ""; lock(true);
-  if (silent) { addMsg("sys", "⏱ Nu ai răspuns la timp…"); R.hist.push({r:"P", t:"(nu a răspuns în " + TIME_LIMIT + " secunde)"}); }
-  else { addMsg("me", text); R.hist.push({r:"P", t:text}); }
-  R.turn++;
-  const typing = addMsg("bot", "…");
-  try {
-    const resp = await fetch(WORKER_URL, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({scenarioId:R.sc.id, history:R.hist})});
-    if (!resp.ok) throw new Error("http " + resp.status);
-    const j = await resp.json();
-    typing.textContent = j.reply || "…";
-    R.hist.push({r:"A", t:j.reply || ""});
-    if (j.tactic) R.tactics.push(j.tactic);
-    if (j.tip && !silent) R.tips.push(j.tip);
-    if (j.status === "leaked") return finish(false);
-    if (j.status === "defended") return finish(true);
-    if (R.turn >= MAX_TURNS) return finish(true, true);
-    if (!silent) addScore(5);
-    R.busy = false; lock(false); R.ui.input.focus(); runTimer();
-  } catch (e) {
-    typing.textContent = "⚠️ Conexiunea cu atacatorul a eșuat. Încearcă din nou.";
-    R.hist.pop(); R.turn--; R.busy = false; lock(false);
+
+  R.busy = true;
+
+  clearInterval(timer);
+
+  R.ui.input.value = "";
+
+  lock(true);
+
+
+  if (silent){
+
+    addMsg("sys", "⏱ Nu ai răspuns la timp…");
+
+    R.hist.push({
+      r:"P",
+      t:"(nu a răspuns în " + TIME_LIMIT + " secunde)"
+    });
+
+  } else {
+
+    addMsg("me", text);
+
+    R.hist.push({
+      r:"P",
+      t:text
+    });
+
   }
+
+
+  R.turn++;
+
+  const typing = addMsg("bot", "…");
+
+
+  try {
+
+    const j = await sendToWorker({
+
+      scenarioId: R.sc.id,
+
+      history: R.hist
+
+    });
+
+
+    typing.textContent = j.reply || "…";
+
+    R.hist.push({
+      r:"A",
+      t:j.reply || ""
+    });
+
+
+    if (j.tactic){
+
+      R.tactics.push(j.tactic);
+
+    }
+
+    if (j.tip && !silent){
+
+      R.tips.push(j.tip);
+
+    }
+
+
+    if (j.status === "leaked"){
+
+      return finish(false);
+
+    }
+
+    if (j.status === "defended"){
+
+      return finish(true);
+
+    }
+
+    if (R.turn >= MAX_TURNS){
+
+      return finish(true, true);
+
+    }
+
+
+    if (!silent){
+
+      addScore(5);
+
+    }
+
+
+    R.busy = false;
+
+    lock(false);
+
+    R.ui.input.focus();
+
+    runTimer();
+
+
+  } catch (e){
+
+    typing.textContent =
+      "⚠️ Conexiunea cu simulatorul a eșuat. Încearcă din nou.";
+
+    R.hist.pop();
+
+    R.turn--;
+
+    R.busy = false;
+
+    lock(false);
+
+  }
+
 }
 
+
+// ====== FINAL SCENARIU ======
+
 function finish(win, survived){
+
   clearInterval(timer);
-  if (win) { addScore(survived ? 20 : 30);
-             window.CyberDefendersProgress?.record("social", R.sc.id);
-            say("Bravo! Ai rezistat. Citește ce tactici au fost folosite împotriva ta."); }
-  else { lives--; showHud(); say("Au! Ai cedat. Nu-i nimic: acum știi cum arată tactica."); }
+
+
+  if (win){
+
+    addScore(survived ? 20 : 30);
+
+    window.CyberDefendersProgress?.record("social", R.sc.id);
+
+    say(
+      "Bravo! Ai rezistat. Citește ce tactici au fost folosite împotriva ta."
+    );
+
+  } else {
+
+    lives--;
+
+    showHud();
+
+    say(
+      "Au! Ai cedat. Nu-i nimic: acum știi cum arată tactica."
+    );
+
+  }
+
+
   const st = $("#stage");
+
   st.replaceChildren();
-  const r = el("div", "res" + (win ? "" : " bad"), win ? (survived ? "🛡️ Ai rezistat tot timpul! +20" : "🛡️ Atac respins! +30") : "⚠️ Ai cedat. −1 viață");
+
+
+  const r = el(
+    "div",
+    "res" + (win ? "" : " bad"),
+
+    win
+      ? (survived
+          ? "🛡️ Ai rezistat tot timpul! +20"
+          : "🛡️ Atac respins! +30")
+      : "⚠️ Ai cedat. −1 viață"
+  );
+
+
   st.append(r);
-  const list = (title, items) => { st.append(el("p", "", title)); const ul = el("ul"); items.forEach(t => ul.append(el("li", "", t))); st.append(ul); };
-  list("Tactici folosite împotriva ta:", [...new Set(R.tactics)]);
-  list("Sfaturi:", R.tips.slice(-3));
-  const b = el("button", "", lives <= 0 ? "Joc terminat · reia" : "Alege alt scenariu");
-  b.onclick = menu; st.append(b);
+
+
+  const list = (title, items) => {
+
+    st.append(el("p", "", title));
+
+    const ul = el("ul");
+
+    items.forEach(t => {
+
+      ul.append(el("li", "", t));
+
+    });
+
+    st.append(ul);
+
+  };
+
+
+  list(
+    "Tactici folosite împotriva ta:",
+    [...new Set(R.tactics)]
+  );
+
+  list(
+    "Sfaturi:",
+    R.tips.slice(-3)
+  );
+
+
+  const b = el(
+    "button",
+    "",
+    lives <= 0
+      ? "Joc terminat · reia"
+      : "Alege alt scenariu"
+  );
+
+  b.onclick = menu;
+
+  st.append(b);
+
 }
+
+
+// ====== PORNIRE JOC ======
+
 menu();
+
 </script>
+
 </body>
 </html>
