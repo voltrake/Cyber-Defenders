@@ -111,27 +111,157 @@
             margin-top: 30px;
         }
 
-         #white-hats-banner {
-            box-sizing: border-box;
-            display: flex;
-            align-items: flex-end;
-            min-height: clamp(250px, 42vw, 420px);
+        .white-hats-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(260px, .85fr);
+            gap: 18px;
             margin: 8px 10px 25px;
-            padding: clamp(24px, 6vw, 56px);
+        }
+
+        #white-hats-banner, #team-panel {
+            box-sizing: border-box;
+            position: relative;
+            min-width: 0;
+            min-height: clamp(290px, 34vw, 370px);
+            overflow: hidden;
             border: 1px solid #00ff88;
+            border-radius: 12px;
+            background-color: #11111b;
+        }
+
+        #white-hats-banner {
+            display: flex;
+            align-items: center;
+            padding: clamp(24px, 4vw, 48px);
+            background:
+                radial-gradient(ellipse at 82% 100%, rgba(0, 255, 136, .2), transparent 48%),
+                linear-gradient(135deg, #181825, #11111b 72%);
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 1;
+            max-width: 62%;
+        }
+
+        .hero-eyebrow, .team-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 18px;
+            color: #00ff88;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .hero-eyebrow::before {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            background: #00ff88;
+            box-shadow: 0 0 12px rgba(0, 255, 136, .7);
+            content: "";
         }
 
         #white-hats-title {
             margin: 0;
-            color: #fff;
-            font-size: clamp(3.5rem, 10vw, 6rem);
+            color: #f5f7ff;
+            font-size: clamp(3rem, 7.4vw, 6rem);
             font-weight: 800;
             letter-spacing: -0.07em;
-            line-height: 0.85;
+            line-height: .88;
+            text-shadow: 0 8px 32px rgba(0, 255, 136, .16);
         }
 
         #white-hats-title span {
             display: block;
+        }
+
+        .hero-caption {
+            max-width: 280px;
+            margin: 18px 0 0;
+            color: #a6adc8;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        #white-hats-sphere {
+            position: absolute;
+            right: 2%;
+            bottom: 1%;
+            width: clamp(175px, 25vw, 260px);
+            height: auto;
+            mix-blend-mode: screen;
+            filter: drop-shadow(0 0 16px rgba(0, 255, 136, .28));
+            animation: sphere-float 5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sphere-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-9px); }
+        }
+
+        #team-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(22px, 3vw, 34px);
+            background:
+                radial-gradient(circle at 100% 0, rgba(0, 255, 136, .1), transparent 42%),
+                #1e1e2e;
+        }
+
+        .team-eyebrow { margin-bottom: 12px; }
+
+        #team-panel h2 {
+            margin: 0;
+            color: #f5f7ff;
+            font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+            letter-spacing: -.04em;
+        }
+
+        #team-panel > p:not(.team-eyebrow) {
+            margin: 12px 0 20px;
+            color: #a6adc8;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .team-values {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .team-values span {
+            padding: 7px 10px;
+            color: #cdd6f4;
+            background: #11111b;
+            border: 1px solid #45475a;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .04em;
+        }
+
+        .team-values span::before {
+            margin-right: 6px;
+            color: #00ff88;
+            content: "＋";
+        }
+
+        @media (max-width: 720px) {
+            .white-hats-hero { grid-template-columns: 1fr; }
+            #white-hats-banner { min-height: 310px; }
+            #team-panel { min-height: 0; }
+            #white-hats-sphere { width: clamp(175px, 38vw, 230px); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #white-hats-sphere { animation: none; }
         }
 
         .card-mode {
@@ -341,8 +471,25 @@
     <main id="app-container" style="padding: 20px;">
 
            
-        <section id="white-hats-banner" aria-labelledby="white-hats-title">
-            <h2 id="white-hats-title"><span>WHITE</span><span>HATS</span></h2>
+        <section class="white-hats-hero" aria-label="Despre Cyber Defenders">
+            <div id="white-hats-banner">
+                <div class="hero-copy">
+                    <p class="hero-eyebrow">Cyber Defenders · echipa</p>
+                    <h2 id="white-hats-title"><span>WHITE</span><span>HATS</span></h2>
+                    <p class="hero-caption">Gândire critică. Apărare digitală. Un internet mai sigur pentru toți.</p>
+                </div>
+                <img id="white-hats-sphere" src="assets/white-hats-sphere.png" alt="Sferă wireframe verde neon, simbol al securității digitale">
+            </div>
+            <aside id="team-panel" aria-labelledby="team-title">
+                <p class="team-eyebrow">Cine suntem</p>
+                <h2 id="team-title">O echipă, un scop.</h2>
+                <p>Suntem o echipă pasionată de securitatea digitală. Am creat aceste aventuri ca să facem învățarea despre amenințările online practică, accesibilă și distractivă.</p>
+                <div class="team-values" aria-label="Valorile echipei">
+                    <span>Învățare</span>
+                    <span>Vigilență</span>
+                    <span>Colaborare</span>
+                </div>
+            </aside>
         </section>
         
         <!-- Mascota CyberBot -->
