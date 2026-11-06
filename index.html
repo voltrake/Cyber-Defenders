@@ -99,12 +99,6 @@
 
     <!-- 3. Logică JavaScript -->
     <script>
-        let nume = prompt("Introdu numele tău de detectiv:");
-        let elementNume = document.querySelector("#display-name");
-        if (nume) {
-            elementNume.textContent = "Jucător: " + nume;
-        }
-
         // Click pe Phish Detective
         document.querySelector("#btn-phishing").addEventListener("click", function() {
             window.location.href = "phish-detective.html";
