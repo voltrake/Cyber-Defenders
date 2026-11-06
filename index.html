@@ -183,20 +183,20 @@
         }
 
         #robot-dog.is-walking #dog-body {
-            animation: dog-bob .24s ease-in-out infinite alternate;
+            animation: dog-bob .48s ease-in-out infinite alternate;
             transform-box: fill-box;
             transform-origin: center;
         }
 
         #robot-dog.is-walking .dog-leg-front-near,
         #robot-dog.is-walking .dog-leg-rear-far {
-            animation: dog-step .24s ease-in-out infinite alternate;
+            animation: dog-step .48s ease-in-out infinite alternate;
             transform-box: view-box;
         }
 
         #robot-dog.is-walking .dog-leg-front-far,
         #robot-dog.is-walking .dog-leg-rear-near {
-            animation: dog-step .24s ease-in-out infinite alternate-reverse;
+            animation: dog-step .48s ease-in-out infinite alternate-reverse;
             transform-box: view-box;
         }
 
@@ -227,12 +227,10 @@
                 animation: none;
             }
         }
-
         
     </style>
 </head>
 <body>
-        
     <!-- 1. Header (Bara de sus) -->
     <header>
         <h1>🛡️ Cyber Defenders</h1>
@@ -389,7 +387,7 @@
             window.location.href = "social-engineering.html";
         });
 
-         // Click pe Fake Files and Suspicios Archives
+        // Click pe Fake Files and Suspicios Archives
         document.querySelector("#btn-files").addEventListener("click", function() {
             window.location.href = "fake-files-and-suspicios-archives.html";
         });
@@ -441,8 +439,8 @@
 
             robotDog.classList.add("is-walking");
             if (Math.abs(dx) > 1) robotDog.style.scale = dx < 0 ? "-1 1" : "1 1";
-            currentX += dx * .14;
-            currentY += dy * .14;
+            currentX += dx * .055;
+            currentY += dy * .055;
             robotDog.style.left = `${currentX}px`;
             robotDog.style.top = `${currentY}px`;
             animationFrame = window.requestAnimationFrame(followCursor);
@@ -460,7 +458,6 @@
         window.addEventListener("resize", setRobotBounds);
         setRobotBounds();
 
-        
     </script>
 </body>
 </html>
