@@ -516,6 +516,7 @@
                 const puncteCastigate = stele * 50;
                 scor += puncteCastigate;
                 starScores[nivelCurent] = Math.max(starScores[nivelCurent], stele);
+                window.CyberDefendersProgress?.record("phishing", nivelCurent + 1);
 
                 displayScore.textContent = "Scor: " + scor;
                 actualizeazaRang();
