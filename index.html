@@ -13,82 +13,6 @@
             padding: 0;
         }
 
-        #white-hats-intro {
-            position: fixed;
-            z-index: 20;
-            top: 18vh;
-            left: clamp(16px, 5vw, 72px);
-            display: flex;
-            align-items: center;
-            gap: clamp(12px, 2vw, 28px);
-            max-width: calc(100vw - 32px);
-            color: #f5f5f5;
-            pointer-events: none;
-            filter: drop-shadow(0 8px 26px rgba(0, 0, 0, .55));
-            transition: opacity .35s ease, transform .35s ease;
-        }
-
-        #white-hats-logo {
-            display: block;
-            flex: 0 0 auto;
-            width: clamp(88px, 14vw, 150px);
-            height: auto;
-            overflow: visible;
-        }
-
-        #white-hats-wordmark {
-            width: 0;
-            overflow: hidden;
-            color: #f5f5f5;
-            font-size: clamp(30px, 6vw, 62px);
-            font-weight: 800;
-            line-height: 1;
-            letter-spacing: .04em;
-            white-space: nowrap;
-            text-shadow: 0 0 18px rgba(255, 255, 255, .5);
-        }
-
-        #white-hats-intro.is-typing #white-hats-wordmark {
-            animation: white-hats-type 1s steps(10, end) forwards, white-hats-glow .8s ease-in-out 1s 2 alternate;
-        }
-
-        #white-hats-intro.is-glitching #white-hats-wordmark {
-            width: 10ch;
-            animation: white-hats-glitch .55s steps(2, end);
-        }
-
-        #white-hats-intro.is-exiting {
-            opacity: 0;
-            transform: translateX(-10px);
-        }
-
-        @keyframes white-hats-type {
-            from { width: 0; }
-            to { width: 10ch; }
-        }
-
-        @keyframes white-hats-glow {
-            from { text-shadow: 0 0 8px rgba(255, 255, 255, .35); }
-            to { text-shadow: 0 0 28px rgba(255, 255, 255, .9), 0 0 48px rgba(137, 180, 250, .55); }
-        }
-
-        @keyframes white-hats-glitch {
-            0%, 100% { transform: none; text-shadow: 0 0 18px rgba(255, 255, 255, .5); }
-            20% { transform: translate(-3px, 1px); text-shadow: 3px 0 #f38ba8, -3px 0 #89dceb; }
-            45% { transform: translate(3px, -1px); clip-path: inset(35% 0 35%); }
-            70% { transform: translate(-1px, 2px); text-shadow: -3px 0 #f38ba8, 3px 0 #89dceb; }
-        }
-
-        @media (max-width: 500px) {
-            #white-hats-intro { top: 14vh; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            #white-hats-intro { transition: none; }
-            #white-hats-intro.is-typing #white-hats-wordmark,
-            #white-hats-intro.is-glitching #white-hats-wordmark { animation: none; }
-        }
-
         header {
             display: flex;
             justify-content: space-between;
@@ -307,16 +231,6 @@
     </style>
 </head>
 <body>
-    <div id="white-hats-intro" aria-hidden="true">
-        <svg id="white-hats-logo" viewBox="0 0 180 120" role="presentation">
-            <path d="M25 87c10-10 34-15 69-15s59 5 69 15c-6 10-35 16-69 16S31 97 25 87Z" fill="#f5f5f5" stroke="#cdd6f4" stroke-width="3"/>
-            <path d="M48 72 61 32c3-10 10-16 21-16h20c11 0 18 6 21 16l13 40c-26-8-61-8-88 0Z" fill="#f5f5f5" stroke="#cdd6f4" stroke-width="3" stroke-linejoin="round"/>
-            <path d="m55 54 74 1 5 16c-25-7-59-8-86 0l5-17Z" fill="#89b4fa"/>
-            <path d="M31 87c16 7 39 10 63 10s47-3 63-10" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
-            <path d="m74 31 7-8h22l7 8" fill="none" stroke="#ffffff" stroke-width="2" opacity=".75"/>
-        </svg>
-        <span id="white-hats-wordmark">White Hats</span>
-    </div>
     <!-- 1. Header (Bara de sus) -->
     <header>
         <h1>🛡️ Cyber Defenders</h1>
@@ -543,17 +457,6 @@
 
         window.addEventListener("resize", setRobotBounds);
         setRobotBounds();
-
-        const whiteHatsIntro = document.querySelector("#white-hats-intro");
-        const whiteHatsWordmark = document.querySelector("#white-hats-wordmark");
-        window.setTimeout(() => whiteHatsIntro.classList.add("is-typing"), 2000);
-        window.setTimeout(() => whiteHatsIntro.classList.add("is-glitching"), 3200);
-        whiteHatsWordmark.addEventListener("animationend", event => {
-            if (event.animationName !== "white-hats-glitch") return;
-            whiteHatsIntro.classList.add("is-exiting");
-            window.setTimeout(() => whiteHatsIntro.remove(), 400);
-        });
-        window.setTimeout(() => whiteHatsIntro.remove(), 4600);
 
     </script>
 </body>
