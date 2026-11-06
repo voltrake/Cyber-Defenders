@@ -1,1 +1,249 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Files & Archives | Cyber Defenders</title>
+    <style>
+        body {
+            background-color: #11111b;
+            color: #cdd6f4;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 2px solid #00ff88;
+            padding-bottom: 15px;
+        }
+        h1, h2 {
+            color: #00ff88;
+            margin: 0;
+        }
+        .back-btn {
+            background: transparent;
+            border: 1px solid #45475a;
+            color: #cdd6f4;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            background: #313244;
+        }
+        .panel {
+            max-width: 650px;
+            margin: 20px auto;
+            padding: 25px;
+            background: #1e1e2e;
+            border: 1px solid #45475a;
+            border-radius: 12px;
+        }
+        .mascot-box {
+            display: flex;
+            align-items: center;
+            background: #1e1e2e;
+            border: 1px solid #00ff88;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            max-width: 650px;
+            margin: 0 auto 20px auto;
+        }
+        input {
+            flex: 1;
+            min-width: 0;
+            box-sizing: border-box;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #45475a;
+            background: #11111b;
+            color: #cdd6f4;
+            font-size: 15px;
+            outline: none;
+        }
+        input:focus {
+            border-color: #00ff88;
+        }
+        button.action-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #00ff88;
+            color: #11111b;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        button.action-btn:hover {
+            background: #00cc6a;
+        }
+        .preset-btn {
+            background: #313244;
+            color: #89b4fa;
+            border: 1px solid #45475a;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .preset-btn:hover {
+            background: #45475a;
+        }
+        .result-box {
+            background: #11111b;
+            border: 1px solid #45475a;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        .metric-card {
+            background: #1e1e2e;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
 
+    <header>
+        <h1>🛡️ Cyber Defenders</h1>
+        <a href="index.html" class="back-btn">⬅ Înapoi la Meniu</a>
+    </header>
+
+    <main style="padding: 20px;">
+        
+        <!-- Casetă CyberBot -->
+        <div class="mascot-box">
+            <div style="font-size: 40px; margin-right: 15px;">🤖</div>
+            <div>
+                <strong style="color:#00ff88;">Cyberbot:</strong>
+                <p style="margin: 5px 0 0 0; color: #cdd6f4;">În acest modul analizăm fișierele periculoase! Verificăm arhivele tip „Zip Bomb” (care se expandează uriaș în memorie) și executabilele mascate drept PDF-uri sau poze[cite: 1].</p>
+            </div>
+        </div>
+
+        <!-- Panou Principal Scanner -->
+        <div class="panel">
+            <h2>📦 Scanner Arhive & Fișiere Suspecte</h2>
+            <p style="color: #a6adc8; font-size: 14px;">Introdu un link de descărcare sau testează exemplele predefinite:</p>
+
+            <!-- Butoane rapide de test -->
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px;">
+                <button class="preset-btn" onclick="loadPreset('https://secureshare.io/documente_contabilitate.zip')">📁 Arhivă Curată</button>
+                <button class="preset-btn" onclick="loadPreset('https://downloads-free.net/poze_vacanta.zip.exe')" style="color: #f9e2af;">⚠️ Dublă Extensie (.zip.exe)</button>
+                <button class="preset-btn" onclick="loadPreset('https://suspicious-server.org/archive_heavy_payload.zip')" style="color: #f38ba8;">🚨 Zip Bomb</button>
+            </div>
+
+            <!-- Input URL și buton de scanare -->
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="target-url" placeholder="https://exemplu.ro/fisier.zip">
+                <button class="action-btn" onclick="simulateScan()">Scanează</button>
+            </div>
+
+            <!-- Mesaj încărcare -->
+            <div id="loading" style="display: none; text-align: center; color: #89b4fa; font-style: italic; margin-top: 15px;">
+                Se analizează antetele HTTP și structura dezarhivată...
+            </div>
+
+            <!-- Panou Rezultate -->
+            <div id="result-panel" class="result-box">
+                <h3 id="result-title" style="margin-top: 0;"></h3>
+                <div class="metrics">
+                    <div class="metric-card">Dimensiune arhivă:<br><strong id="m-dl">-</strong></div>
+                    <div class="metric-card">Extinsă în RAM:<br><strong id="m-ext">-</strong></div>
+                    <div class="metric-card">Rată compresie:<br><strong id="m-ratio">-</strong></div>
+                </div>
+                <ul id="result-details" style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.5;"></ul>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function loadPreset(url) {
+            document.getElementById('target-url').value = url;
+        }
+
+        function simulateScan() {
+            const url = document.getElementById('target-url').value.trim().toLowerCase();
+            const loading = document.getElementById('loading');
+            const resultPanel = document.getElementById('result-panel');
+            const resultTitle = document.getElementById('result-title');
+            const details = document.getElementById('result-details');
+            
+            const mDl = document.getElementById('m-dl');
+            const mExt = document.getElementById('m-ext');
+            const mRatio = document.getElementById('m-ratio');
+
+            if (!url) {
+                alert("Te rugăm să introduci o adresă URL!");
+                return;
+            }
+
+            loading.style.display = "block";
+            resultPanel.style.display = "none";
+
+            setTimeout(() => {
+                loading.style.display = "none";
+                resultPanel.style.display = "block";
+                details.innerHTML = "";
+
+                let isDanger = false;
+                let dl = "2.4 MB", ext = "2.6 MB", ratio = "1:1.08";
+                let logs = [];
+
+                if (url.includes('heavy') || url.includes('payload') || url.includes('bomb')) {
+                    isDanger = true;
+                    dl = "42 KB"; ext = "4.5 GB"; ratio = "1:107374";
+                    logs.push("🚨 <b>Atac Zip Bomb detectat:</b> Fișierul are doar 42 KB, dar decompresionat ocupă 4.5 GB în memorie[cite: 1]!");
+                    logs.push("⚠️ Risc critic de blocare a calculatorului (Denial of Service).");
+                } else if (url.endsWith('.exe') || url.includes('.zip.exe') || url.includes('.pdf.exe')) {
+                    isDanger = true;
+                    dl = "1.2 MB"; ext = "1.2 MB"; ratio = "1:1";
+                    logs.push("🚨 <b>Dublă extensie / Executabil ascuns:</b> Fișierul afișează o pictogramă falsă, dar extensia reală este `.exe`[cite: 1].");
+                    logs.push("⚠️ Risc major de infectare cu malware la executare.");
+                } else {
+                    logs.push("✅ Rata de compresie este normală și sigură.");
+                    logs.push("✅ Nu s-au detectat fișiere executabile ascunse în arhivă.");
+                }
+
+                if (isDanger) {
+                    resultTitle.textContent = "🚨 AMENINȚARE CRITICĂ DETECTATĂ!";
+                    resultTitle.style.color = "#f38ba8";
+                    resultPanel.style.borderColor = "#f38ba8";
+                } else {
+                    resultTitle.textContent = "✅ FIȘIER CURAT / SIGUR";
+                    resultTitle.style.color = "#00ff88";
+                    resultPanel.style.borderColor = "#00ff88";
+                }
+
+                mDl.textContent = dl;
+                mExt.textContent = ext;
+                mRatio.textContent = ratio;
+
+                logs.forEach(l => {
+                    let li = document.createElement('li');
+                    li.innerHTML = l;
+                    details.appendChild(li);
+                });
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
