@@ -105,35 +105,15 @@
             elementNume.textContent = "Jucător: " + nume;
         }
 
-        const modesGrid = document.querySelector(".modes-grid");
-        const levelSelect = document.querySelector("#level-select");
-        const mascotText = document.querySelector("#mascot-text");
-        const adventureTitle = document.querySelector("#adventure-title");
-        const sectionTitle = document.querySelector("#section-title");
-        const btnBackMenu = document.querySelector("#btn-back-menu");
-
         // Click pe Phish Detective
         document.querySelector("#btn-phishing").addEventListener("click", function() {
             window.location.href = "phish-detective.html";
-            modesGrid.style.display = "none";
-            sectionTitle.style.display = "none";
-            levelSelect.style.display = "block";
-            adventureTitle.textContent = "🎣 Phish Detective - Selectează Nivelul";
-            mascotText.textContent = "Grozav! Ai ales Phish Detective. Completează Nivelul 1 pentru a debloca Nivelul 2!";
-        });
-
-        // Click pe Înapoi la Meniu
-        btnBackMenu.addEventListener("click", function() {
-            levelSelect.style.display = "none";
-            modesGrid.style.display = "flex";
-            sectionTitle.style.display = "block";
-            mascotText.textContent = "M-am întors în meniu! Ce aventură vrei să încerci?";
         });
 
         // Click pe Password Shield
-document.querySelector("#btn-password").addEventListener("click", function() {
-    window.location.href = "password-shield.html";
-});
+        document.querySelector("#btn-password").addEventListener("click", function() {
+            window.location.href = "password-shield.html";
+        });
         
     </script>
 </body>
