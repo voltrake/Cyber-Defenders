@@ -57,9 +57,12 @@
         }
 
         #progress-dialog {
-            width: min(680px, calc(100% - 40px));
-            max-width: 680px;
+            box-sizing: border-box;
+            width: min(900px, calc(100% - 40px));
+            max-width: 900px;
+            max-height: calc(100vh - 40px);
             padding: 24px;
+            overflow: auto;
             color: #cdd6f4;
             background: #1e1e2e;
             border: 1px solid #00ff88;
@@ -67,8 +70,29 @@
         }
 
         #progress-dialog::backdrop { background: rgba(17, 17, 27, .8); }
-        #progress-dialog h2 { margin-top: 0; color: #00ff88; }
-        #progress-chart { display: block; width: 100%; height: auto; }
+        #progress-dialog h2, #progress-dialog h3 { color: #00ff88; }
+        #progress-dialog h2 { margin-top: 0; }
+        .progress-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .progress-toolbar label { color: #cdd6f4; font-weight: bold; }
+        #progress-range {
+            padding: 8px 12px;
+            color: #cdd6f4;
+            background: #11111b;
+            border: 1px solid #45475a;
+            border-radius: 6px;
+            font: inherit;
+        }
+        .chart-panel { margin-top: 20px; padding: 16px; background: #11111b; border: 1px solid #313244; border-radius: 10px; }
+        .chart-panel h3 { margin: 0; }
+        .chart-panel p { margin: 6px 0 0; color: #a6adc8; font-size: 14px; }
+        .progress-chart { display: block; width: 100%; height: auto; margin-top: 12px; overflow: visible; }
+        .chart-legend { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 8px; color: #cdd6f4; font-size: 13px; }
+        .chart-legend span { display: inline-flex; align-items: center; gap: 7px; }
+        .legend-swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; }
+        #progress-stats, #time-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 10px; margin-top: 14px; }
+        .progress-stat { padding: 12px; background: #181825; border: 1px solid #313244; border-radius: 8px; }
+        .progress-stat strong { display: block; color: #00ff88; font-size: 19px; }
+        .progress-stat span { display: block; margin-top: 4px; color: #a6adc8; font-size: 12px; }
         #progress-close {
             display: block;
             margin: 16px 0 0 auto;
@@ -126,8 +150,31 @@
 
     <dialog id="progress-dialog" aria-labelledby="progress-title">
         <h2 id="progress-title">Progresul tău</h2>
-        <p>Avansul tău în fiecare mini-joc.</p>
-        <svg id="progress-chart" role="img" aria-label="Graficul progresului în mini-jocuri"></svg>
+        <div class="progress-toolbar">
+            <p>Urmărește progresul și timpul petrecut în mini-jocuri.</p>
+            <label for="progress-range">Interval:
+                <select id="progress-range">
+                    <option value="hours">Ore · ultimele 24</option>
+                    <option value="days" selected>Zile · ultimele 30</option>
+                    <option value="months">Luni · ultimele 12</option>
+                    <option value="years">Ani · ultimii 5</option>
+                </select>
+            </label>
+        </div>
+        <section class="chart-panel" aria-labelledby="progress-chart-title">
+            <h3 id="progress-chart-title">Progres cumulativ</h3>
+            <p>Zona arată progresul total; liniile arată fiecare mini-joc.</p>
+            <svg id="progress-chart" class="progress-chart" role="img" aria-label="Grafic cu progresul în mini-jocuri în timp"></svg>
+            <div id="progress-legend" class="chart-legend" aria-label="Legendă progres"></div>
+            <div id="progress-stats" aria-label="Progres curent"></div>
+        </section>
+        <section class="chart-panel" aria-labelledby="time-chart-title">
+            <h3 id="time-chart-title">Timp petrecut</h3>
+            <p id="time-chart-description">Durata activă estimată pentru fiecare interval.</p>
+            <svg id="time-chart" class="progress-chart" role="img" aria-label="Grafic cu timpul petrecut în mini-jocuri"></svg>
+            <div id="time-legend" class="chart-legend" aria-label="Legendă timp"></div>
+            <div id="time-stats" aria-label="Timp total și per mini-joc"></div>
+        </section>
         <button id="progress-close" type="button">Închide</button>
     </dialog>
 
