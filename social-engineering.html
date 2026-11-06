@@ -142,7 +142,9 @@ async function submit(text, silent){
 
 function finish(win, survived){
   clearInterval(timer);
-  if (win) { addScore(survived ? 20 : 30); say("Bravo! Ai rezistat. Citește ce tactici au fost folosite împotriva ta."); }
+  if (win) { addScore(survived ? 20 : 30);
+             window.CyberDefendersProgress?.record("social", R.sc.id);
+            say("Bravo! Ai rezistat. Citește ce tactici au fost folosite împotriva ta."); }
   else { lives--; showHud(); say("Au! Ai cedat. Nu-i nimic: acum știi cum arată tactica."); }
   const st = $("#stage");
   st.replaceChildren();
