@@ -135,7 +135,7 @@ async function submit(text, silent){
     if (!silent) addScore(5);
     R.busy = false; lock(false); R.ui.input.focus(); runTimer();
   } catch (e) {
-    typing.textContent = "⚠️ Conexiunea cu atacatorul a eșuat. Încearcă din nou.";
+    typing.textContent = "⚠️ Conexiunea cu atacatorul a eșuat. Încearcă din nou. "+e;
     R.hist.pop(); R.turn--; R.busy = false; lock(false);
   }
 }
