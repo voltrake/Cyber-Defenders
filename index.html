@@ -227,6 +227,43 @@
                 animation: none;
             }
         }
+
+
+
+
+        @keyframes glitch-anim {
+  0% {
+    transform: translate(0);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-3px, 3px);
+    filter: hue-rotate(90deg);
+  }
+  40% {
+    transform: translate(-3px, -3px);
+    filter: hue-rotate(180deg);
+  }
+  60% {
+    transform: translate(3px, 3px);
+    filter: drop-shadow(0 0 8px #00ffcc);
+  }
+  80% {
+    transform: translate(3px, -3px);
+  }
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+}
+
+.glitch-transition {
+  animation: glitch-anim 0.4s ease-in-out forwards;
+  pointer-events: none;
+}
+
+
+
         
     </style>
 </head>
@@ -458,6 +495,24 @@
         window.addEventListener("resize", setRobotBounds);
         setRobotBounds();
 
+
+        document.querySelectorAll('.adventure-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    e.preventDefault();
+    const targetUrl = this.getAttribute('href'); // sau logica ta de schimbare a ecranului
+
+    // 1. Adăugăm efectul de glitch pe ecran sau pe card
+    document.body.classList.add('glitch-transition');
+
+    // 2. După 400 de milisecunde, efectuăm tranziția efectivă
+    setTimeout(() => {
+      window.location.href = targetUrl; // Schimbarea propriu-zisă a paginii/conținutului
+    }, 400);
+  });
+});
+
+
+        
     </script>
 </body>
 </html>
