@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
@@ -255,35 +255,10 @@
     </header>
 
     <main id="app-container" style="padding: 20px;">
-        
-        <div id="mascot-box" style="display: flex; align-items: center; background: #1e1e2e; border: 1px solid #00ff88; padding: 15px; border-radius: 10px; margin-bottom: 25px;">
-            <div style="font-size: 40px; margin-right: 15px;">🤖</div>
-            <div>
-                <strong style="color:#00ff88;">Cyberbot:</strong>
-                <p id="mascot-text" style="margin: 5px 0 0 0; color: #cdd6f4;">Salut! Alege o aventură pentru a începe aventura ta în lumea securității cibernetice.</p>
-            </div>
-        </div>
-
-        <h2 id="section-title">Alege o aventură:</h2>
-
-        <div class="modes-grid">
-            <button id="btn-phishing" class="card-mode">
-                <h3>🎣 Phish Detective</h3>
-                <p>20 Niveluri: E-mailuri și SMS-uri suspecte</p>
-            </button>
-            <button id="btn-password" class="card-mode" style="opacity:0.6; cursor:not-allowed;">
-                <h3>🔑 Password Shield</h3>
-            </button>
-            <button id="btn-social" class="card-mode" style="opacity:0.6; cursor:not-allowed;">
-                <h3>💬 Social Engineering</h3>
-            </button>
-        </div>
-
-        <!-- HARTA -->
-        <div id="level-select" style="display: none; text-align: center; margin-top: 20px;">
-            <button id="btn-back-menu" style="background: transparent; border: 1px solid #45475a; color: white; padding: 8px 15px; border-radius: 6px; cursor: pointer; float: left;">⬅ Înapoi la Meniu</button>
+        <div id="level-select" style="text-align: center; margin-top: 20px;">
+            <button id="btn-back-menu" style="background: transparent; border: 1px solid #45475a; color: white; padding: 8px 15px; border-radius: 6px; cursor: pointer; float: left;">⬅ Înapoi la Meniul Principal</button>
             
-            <h2 id="adventure-title" style="clear: both; padding-top: 10px; color: #00ff88;">Selectează un nivel</h2>
+            <h2 id="adventure-title" style="clear: both; padding-top: 10px; color: #00ff88;">🎣 Phish Detective - Selectează Nivelul</h2>
             
             <div id="levels-grid"></div>
         </div>
@@ -362,14 +337,8 @@
             } catch(e){}
         }
 
-        let nume = prompt("Introdu numele tău de detectiv:");
-        if (nume) document.querySelector("#display-name").textContent = "Jucător: " + nume;
-
-        const modesGrid = document.querySelector(".modes-grid");
         const levelSelect = document.querySelector("#level-select");
-        const mascotText = document.querySelector("#mascot-text");
         const adventureTitle = document.querySelector("#adventure-title");
-        const sectionTitle = document.querySelector("#section-title");
         const btnBackMenu = document.querySelector("#btn-back-menu");
         const cyberbotCompanion = document.querySelector("#cyberbot-companion");
         const botBubble = document.querySelector("#bot-bubble");
@@ -452,26 +421,9 @@
             });
         }
 
-        document.querySelector("#btn-phishing").addEventListener("click", function() {
-            document.querySelector("#mascot-box").style.display = "none";
-            modesGrid.style.display = "none";
-            sectionTitle.style.display = "none";
-            genereazaHartaNiveluri(); 
-            levelSelect.style.display = "block";
-            adventureTitle.textContent = "🎣 Phish Detective - Selectează Nivelul";
-
-            cyberbotCompanion.style.display = "flex";
-            botBubble.textContent = "Salut! Sunt CyberBot. Alege un nivel deblocat! 🕵️‍♂️";
-        });
-
         btnBackMenu.addEventListener("click", function() {
-            levelSelect.style.display = "none";
-            gameScreen.style.display = "none";
-            modesGrid.style.display = "flex";
-            sectionTitle.style.display = "block";
-            document.querySelector("#mascot-box").style.display = "flex";
-            cyberbotCompanion.style.display = "none";
             clearInterval(timerInterval);
+            window.location.href = "index.html";
         });
 
         function pornesteTimer() {
@@ -604,6 +556,10 @@
             levelSelect.style.display = "block";
             botBubble.textContent = "Alege următorul nivel de pe hartă pentru a continua!";
         });
+
+        genereazaHartaNiveluri();
+        cyberbotCompanion.style.display = "flex";
+        botBubble.textContent = "Salut! Sunt CyberBot. Alege un nivel deblocat! 🕵️‍♂️";
     </script>
 </body>
 </html>
