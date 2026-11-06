@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberShield Academy</title>
     <style>
-        body {
+        body { 
             background-color: #11111b;
             color: #cdd6f4;
             font-family: Arial, sans-serif;
@@ -109,6 +109,29 @@
             display: flex;
             gap: 20px;
             margin-top: 30px;
+        }
+
+         #white-hats-banner {
+            box-sizing: border-box;
+            display: flex;
+            align-items: flex-end;
+            min-height: clamp(250px, 42vw, 420px);
+            margin: 8px 10px 25px;
+            padding: clamp(24px, 6vw, 56px);
+            border: 1px solid #00ff88;
+        }
+
+        #white-hats-title {
+            margin: 0;
+            color: #fff;
+            font-size: clamp(3.5rem, 10vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -0.07em;
+            line-height: 0.85;
+        }
+
+        #white-hats-title span {
+            display: block;
         }
 
         .card-mode {
@@ -316,6 +339,11 @@
 
     <!-- 2. Main Content Container -->
     <main id="app-container" style="padding: 20px;">
+
+           
+        <section id="white-hats-banner" aria-labelledby="white-hats-title">
+            <h2 id="white-hats-title"><span>WHITE</span><span>HATS</span></h2>
+        </section>
         
         <!-- Mascota CyberBot -->
         <div id="mascot-box" style="display: flex; align-items: center; background: #1e1e2e; border: 1px solid #00ff88; padding: 15px; border-radius: 10px; margin-bottom: 25px;">
