@@ -257,13 +257,14 @@
   }
 }
 
-.glitch-transition {
-  animation: glitch-anim 0.4s ease-in-out forwards;
-  pointer-events: none;
-}
+        .glitch-transition {
+            animation: glitch-anim 0.8s linear forwards;
+            pointer-events: none;
+        }
 
-
-
+        @media (prefers-reduced-motion: reduce) {
+            .glitch-transition { animation: none; }
+        }
         
     </style>
 </head>
@@ -410,25 +411,39 @@
 
     <!-- 3. Logică JavaScript -->
     <script>
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let isNavigating = false;
+
+        function navigateWithGlitch(targetUrl) {
+            if (isNavigating) return;
+            isNavigating = true;
+            if (reduceMotion) {
+                window.location.href = targetUrl;
+                return;
+            }
+            document.body.classList.add("glitch-transition");
+            window.setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 800);
+        }
+
         // Click pe Phish Detective
         document.querySelector("#btn-phishing").addEventListener("click", function() {
-            window.location.href = "phish-detective.html";
+            navigateWithGlitch("phish-detective.html");
         });
 
-        // Click pe Password Shield
         // Click pe Password Shield
         document.querySelector("#btn-password").addEventListener("click", function() {
-            window.location.href = "password-shield.html";
+            navigateWithGlitch("password-shield.html");
         });
-
         // Click pe Social Engineering
         document.querySelector("#btn-social").addEventListener("click", function() {
-            window.location.href = "social-engineering.html";
+            navigateWithGlitch("social-engineering.html");
         });
 
         // Click pe Fake Files and Suspicios Archives
         document.querySelector("#btn-files").addEventListener("click", function() {
-            window.location.href = "fake-files-and-suspicios-archives.html";
+            navigateWithGlitch("fake-files-and-suspicios-archives.html");
         });
         
 
@@ -439,8 +454,6 @@
         let animationFrame = 0;
         let currentX = 0;
         let currentY = 0;
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
         function setRobotBounds() {
             const bounds = playground.getBoundingClientRect();
             const halfWidth = robotDog.getBoundingClientRect().width / 2;
@@ -498,23 +511,6 @@
         setRobotBounds();
 
 
-        document.querySelectorAll('.adventure-card').forEach(card => {
-  card.addEventListener('click', function(e) {
-    e.preventDefault();
-    const targetUrl = this.getAttribute('href'); // sau logica ta de schimbare a ecranului
-
-    // 1. Adăugăm efectul de glitch pe ecran sau pe card
-    document.body.classList.add('glitch-transition');
-
-    // 2. După 400 de milisecunde, efectuăm tranziția efectivă
-    setTimeout(() => {
-      window.location.href = targetUrl; // Schimbarea propriu-zisă a paginii/conținutului
-    }, 400);
-  });
-});
-
-
-        
     </script>
 </body>
 </html>
