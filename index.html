@@ -236,7 +236,7 @@
             gap: 8px;
         }
 
-        .team-values span {
+        .team-values a {
             padding: 7px 10px;
             color: #cdd6f4;
             background: #11111b;
@@ -245,9 +245,15 @@
             font-size: 11px;
             font-weight: 700;
             letter-spacing: .04em;
+                     text-decoration: none;
         }
 
-        .team-values span::before {
+       .team-values a:hover, .team-values a:focus-visible {
+            color: #00ff88;
+            border-color: #00ff88;
+        }
+
+        .team-values a::before {
             margin-right: 6px;
             color: #00ff88;
             content: "＋";
@@ -483,11 +489,11 @@
             <aside id="team-panel" aria-labelledby="team-title">
                 <p class="team-eyebrow">Cine suntem</p>
                 <h2 id="team-title">O echipă, un scop.</h2>
-                <p>Suntem o echipă pasionată de securitatea digitală. Am creat aceste aventuri ca să facem învățarea despre amenințările online practică, accesibilă și distractivă.</p>
-                <div class="team-values" aria-label="Valorile echipei">
-                    <span>Învățare</span>
-                    <span>Vigilență</span>
-                    <span>Colaborare</span>
+                <p>White Hats este o echipă care a implementat acest site cu scop educativ. Suntem o echipă pasionată de securitatea digitală. Prin minijocuri, te învățăm, într-un mod practic, accesibil și distractiv, despre securitate, amenințări online și multe alte lucruri utile în lumea digitală. Echipa noastră este formată din Raluca-Mihaela Stănciulescu, Andra Groot Koerkamp și Andreea-Ramona Anghel.</p>
+                <div class="team-values" aria-label="Membrii echipei">
+                    <a href="https://github.com/voltrake">Raluca-Mihaela Stănciulescu</a>
+                    <a href="https://github.com/Anda24931">Andra Groot Koerkamp</a>
+                    <a href="https://github.com/andreearamonaanghel1-bit">Andreea-Ramona Anghel</a>
                 </div>
             </aside>
         </section>
