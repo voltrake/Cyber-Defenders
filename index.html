@@ -156,6 +156,21 @@ header h1 b{color:var(--neon)}
 .team-values a:hover,.team-values a:focus-visible{color:var(--neon);border-color:var(--neon);transform:translateY(-2px)}
 .team-values a::before{content:"＋";margin-right:6px;color:var(--neon)}
 
+/* TEXT BOXES */
+.learning-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px}
+.learning-card{min-width:0;padding:24px;background:var(--card);border:1px solid var(--line2);border-radius:12px}
+.learning-card h3{margin:0 0 12px;color:#f5f7ff;font-family:var(--pixel);font-size:clamp(16px,2vw,20px);line-height:1.5}
+.learning-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}
+.learning-card .rule{margin-top:16px;padding-top:12px;border-top:1px dashed var(--line2);color:var(--text);font-size:13px}
+.learning-card .rule b{margin-right:8px;color:var(--neon);font-family:var(--pixel);font-size:11px;font-weight:400}
+.learning-card--wide{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;align-items:center}
+.learning-demo{display:grid;gap:12px;padding:18px;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+.learning-demo small{color:var(--neon);font-family:var(--pixel);font-size:11px;letter-spacing:.08em}
+.learning-demo a{width:max-content;max-width:100%;padding:10px 14px;color:#89dceb;background:var(--bg2);border:1px solid var(--line2);font-size:14px;overflow-wrap:anywhere}
+.learning-demo a:hover,.learning-demo a:focus-visible{color:var(--neon);border-color:var(--neon)}
+.learning-demo .status{min-height:38px;padding:8px 12px;color:var(--muted);background:#0a0a12;border:1px solid var(--line);font:12px/1.5 'Courier New',monospace}
+.learning-demo .status.bad{color:#f38ba8;border-color:#f38ba8}
+
 /* STATISTICI */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));border-block:1px dashed var(--line2);background:rgba(24,24,37,.7)}
 .stat{padding:38px 12px;text-align:center;border-right:1px dotted var(--line2)}
@@ -267,8 +282,7 @@ footer a:hover{color:var(--neon)}
       </div>
     </div>
     <div class="hero-visual" aria-hidden="true">
-      <!-- Pune aici o poză sau un GIF: img/hero.jpg sau img/hero.gif -->
-      <div class="hero-photo" style="--img:url('img/hero.jpg')"></div>
+      <div class="hero-photo"></div>
       <div class="cube c1"><i></i><i></i><i></i><i></i><i></i><i></i></div>
       <div class="cube c2"><i></i><i></i><i></i><i></i><i></i><i></i></div>
       <div class="cube c3"><i></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -311,27 +325,26 @@ footer a:hover{color:var(--neon)}
     </div>
 
     <div class="modes-grid">
-      <!-- Pozele/GIF-urile: img/phishing.jpg, img/password.jpg, img/social.jpg, img/files.jpg (merge și .gif) -->
       <button id="btn-phishing" class="card-mode reveal" data-tilt>
-        <div class="card-media" style="--img:url('img/phishing.jpg')">
+        <div class="card-media">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
         </div>
         <div class="card-body"><span class="lvl">NIVELURI</span><h3>🎣 Phish Detective</h3><p>E-mailuri și SMS-uri suspecte</p><span class="go">Joacă →</span></div>
       </button>
       <button id="btn-password" class="card-mode reveal" data-tilt>
-        <div class="card-media" style="--img:url('img/password.jpg')">
+        <div class="card-media">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
         </div>
         <div class="card-body"><span class="lvl">NIVELURI</span><h3>🔑 Password Shield</h3><p>Spargere și fortificare parole</p><span class="go">Joacă →</span></div>
       </button>
       <button id="btn-social" class="card-mode reveal" data-tilt>
-        <div class="card-media" style="--img:url('img/social.jpg')">
+        <div class="card-media">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
         </div>
         <div class="card-body"><span class="lvl">NIVELURI</span><h3>💬 Social Engineering</h3><p>Misiuni de chat &amp; manipulare</p><span class="go">Joacă →</span></div>
       </button>
       <button id="btn-files" class="card-mode reveal" data-tilt>
-        <div class="card-media" style="--img:url('img/files.jpg')">
+        <div class="card-media">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 12v4M12 18.5v.01"/></svg>
         </div>
         <div class="card-body"><span class="lvl">NIVELURI</span><h3>Fake files and suspicious archives</h3><p>Recunoașterea fișierelor periculoase</p><span class="go">Joacă →</span></div>
@@ -429,6 +442,46 @@ footer a:hover{color:var(--neon)}
       </svg>
     </section>
   </section>
+
+  <section class="wrap" id="invata" aria-labelledby="learn-title">
+    <div class="sec-head reveal">
+      <h2 id="learn-title">Învață înainte să joci</h2>
+      <p>Trei lucruri pe care orice utilizator ar trebui să le știe: phishingul, linkurile de la terți și cookie-urile.</p>
+    </div>
+
+    <div class="learning-grid">
+      <article class="learning-card reveal">
+        <h3>Ce este phishingul?</h3>
+        <p>Phishingul este o înșelătorie online în care cineva se dă drept o persoană sau o firmă de încredere, de exemplu o bancă, un curier sau o platformă cunoscută. Scopul este să te convingă să îți dai parola, datele cardului sau să deschizi un link ori un fișier periculos.</p>
+        <p class="rule"><b>SEMN</b>Mesaj grăbit, cu urgență și adresă de expeditor ciudată.</p>
+      </article>
+
+      <article class="learning-card reveal">
+        <h3>Linkuri de la terți</h3>
+        <p>Un link de la terți te duce pe un alt site decât cel pe care ești, controlat de altcineva: reclame, butoane de partajare, linkuri scurtate sau conținut încorporat. Multe sunt inofensive, dar tu nu controlezi ce se află în spatele lor și pot redirecționa spre pagini false sau pot urmări ce faci.</p>
+        <p class="rule"><b>SFAT</b>Citește domeniul real înainte să dai click.</p>
+      </article>
+
+      <article class="learning-card reveal">
+        <h3>Ce sunt cookie-urile?</h3>
+        <p>Cookie-urile sunt fișiere mici pe care un site le salvează în browserul tău, ca să te țină autentificat și să îți rețină preferințele. Cele de la terți vin de pe alte domenii și sunt folosite mai ales pentru reclame și urmărire. Dacă un cookie de sesiune ajunge la un atacator, acesta îți poate prelua contul.</p>
+        <p class="rule"><b>SFAT</b>Acceptă doar cookie-urile necesare și șterge-le periodic.</p>
+      </article>
+
+      <article class="learning-card learning-card--wide reveal">
+        <div>
+          <h3>Încearcă singur: verifică linkul</h3>
+          <p>Atacatorii folosesc text care arată ca o adresă cunoscută, dar linkul duce în altă parte. Compară textul linkului cu adresa reală afișată dedesubt.</p>
+          <p class="rule"><b>REȚINE</b>Verifică numele domeniului înainte de primul „/” și citește-l de la dreapta spre stânga.</p>
+        </div>
+        <div class="learning-demo">
+          <small>EXEMPLU DE LINK (NU ESTE REAL)</small>
+          <a href="#invata" id="fake-link">www.banca-ta.ro/autentificare</a>
+          <div class="status" id="link-status" role="status" aria-live="polite">Selectează linkul pentru a vedea destinația reală.</div>
+        </div>
+      </article>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -452,6 +505,14 @@ document.querySelector("#btn-phishing").addEventListener("click", () => navigate
 document.querySelector("#btn-password").addEventListener("click", () => navigateWithGlitch("password-shield.html"));
 document.querySelector("#btn-social").addEventListener("click", () => navigateWithGlitch("social-engineering.html"));
 document.querySelector("#btn-files").addEventListener("click", () => navigateWithGlitch("fake-files-and-suspicios-archives.html"));
+
+const fakeLink = document.querySelector("#fake-link");
+const linkStatus = document.querySelector("#link-status");
+fakeLink.addEventListener("click", event => {
+  event.preventDefault();
+  linkStatus.classList.add("bad");
+  linkStatus.textContent = "Destinația reală: https://banca-ta.ro.verificare-cont.example/login — domeniul este verificare-cont.example, nu banca-ta.ro.";
+});
 
 /* Text care se scrie singur */
 (function(){
