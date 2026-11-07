@@ -501,6 +501,10 @@ function navigateWithGlitch(targetUrl) {
   document.body.classList.add("glitch-transition");
   window.setTimeout(() => { window.location.href = targetUrl; }, 800);
 }
+window.addEventListener("pageshow", () => {
+  document.body.classList.remove("glitch-transition");
+  isNavigating = false;
+});
 document.querySelector("#btn-phishing").addEventListener("click", () => navigateWithGlitch("phish-detective.html"));
 document.querySelector("#btn-password").addEventListener("click", () => navigateWithGlitch("password-shield.html"));
 document.querySelector("#btn-social").addEventListener("click", () => navigateWithGlitch("social-engineering.html"));
